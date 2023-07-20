@@ -77,7 +77,7 @@ app.use(
   })
 );
 
-app.user(compression());
+app.use(compression());
 
 // Development logging
 if (process.env.NODE_ENV === "development") {
