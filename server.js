@@ -2,8 +2,8 @@ const mongoose = require("mongoose"); //this is required to make mongodb connect
 const dotenv = require("dotenv");
 
 process.on("uncaughtException", (err) => {
-  ("Uncaught exception: Shutting down.");
-  //console.log(err);
+  console.log("Uncaught exception: Shutting down.");
+  console.log(err);
   //console.log(err.name, err.message);
   process.exit(1);
 });
@@ -26,10 +26,10 @@ mongoose
     // the object we're sending to mongoose.connect is to avoid deprecation warnings.
   })
   .then(() => {
-    //console.log("DB connection successful.");
+    console.log("DB connection successful.");
   })
   .catch((err) => {
-    //console.log("DB connection not successful.", err);
+    console.log("DB connection not successful.", err);
   });
 
 // console.log(process.env);
@@ -38,11 +38,12 @@ mongoose
 //////////start server
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
-  //console.log("App running on port " + port);
+  console.log("App running on port " + port);
 });
 
 process.on("unhandledRejection", (err) => {
-  //console.log("Unhandled rejection: Shutting down.");
+  console.log("Unhandled rejection: Shutting down.");
+  console.log(err);
   //console.log(err.name, err.message);
   server.close(() => {
     process.exit(1);

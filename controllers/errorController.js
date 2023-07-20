@@ -33,7 +33,7 @@ const sendErrorDev = (req, err, res) => {
       stack: err.stack,
     });
   }
-  //("Error 💥", err);
+  console.log("Error 💥", err);
 
   return res
     .status(err.statusCode)
@@ -48,7 +48,7 @@ const sendErrorProd = (req, err, res) => {
         message: err.message,
       });
     }
-    //console.log("Error 💥", err);
+    console.log("Error 💥", err);
     return res.status(500).json({
       status: "error",
       message: "Something went very wrong",
