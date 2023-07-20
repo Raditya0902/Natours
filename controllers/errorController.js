@@ -33,7 +33,7 @@ const sendErrorDev = (req, err, res) => {
       stack: err.stack,
     });
   }
-  console.log("Error 💥", err);
+  //("Error 💥", err);
 
   return res
     .status(err.statusCode)
@@ -48,7 +48,7 @@ const sendErrorProd = (req, err, res) => {
         message: err.message,
       });
     }
-    console.log("Error 💥", err);
+    //console.log("Error 💥", err);
     return res.status(500).json({
       status: "error",
       message: "Something went very wrong",
@@ -75,7 +75,7 @@ module.exports = (err, req, res, next) => {
     sendErrorDev(req, err, res);
   } else if (process.env.NODE_ENV === "production") {
     let error = { ...err, name: err.name, message: err.message };
-    console.log(error);
+    //console.log(error);
     if (error.name === "CastError") error = handleCastErrorDB(error);
     if (error.code === 11000) error = handleDuplicateFieldsDB(error);
     if (error.name === "ValidationError")

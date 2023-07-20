@@ -37,7 +37,7 @@ const createToken = (user, statusCode, res) => {
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create(req.body);
   const url = `${req.protocol}://${req.get("host")}/me`;
-  console.log(url);
+  //console.log(url);
   await new Email(newUser, url).sendWelcome();
   createToken(newUser, 201, res);
 });
@@ -170,7 +170,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  console.log(req.user);
+  //console.log(req.user);
   // 1) get user from collection
   const user = await User.findOne({ _id: req.user.id }).select("+password");
   // 2) Check if posted current password is correct
