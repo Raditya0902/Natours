@@ -24,7 +24,7 @@ exports.uploadTourImages = upload.fields([
 ]);
 
 exports.resizeTourImages = catchAsync(async (req, res, next) => {
-  // console.log(req.files);
+  console.log(req.files);
   if (!req.files.imageCover || !req.files.images) next();
   req.body.imageCover = `tour-${req.params.id}-${Date.now()}-cover.jpeg`;
   await sharp(req.files.imageCover[0].buffer)
@@ -56,7 +56,7 @@ exports.resizeTourImages = catchAsync(async (req, res, next) => {
 
 // a good example of how middleware works
 // exports.checkID = (req, res, next, val) => {
-//   console.log(`Tour id is: + ${val}`);
+// console.log(`Tour id is: + ${val}`);
 
 //   if (Number(req.params.id) > tours.length) {
 //     return res.status(404).json({

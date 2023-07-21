@@ -12,7 +12,7 @@ const signToken = (id) => {
   });
 };
 
-const createToken = (user, statusCode, req, res) => {
+const createToken = (user, statusCode, res) => {
   const token = signToken(user._id);
   const cookieOptions = {
     expires: new Date(
@@ -35,13 +35,15 @@ const createToken = (user, statusCode, req, res) => {
 exports.signup = catchAsync(async (req, res, next) => {
   const newUser = await User.create(req.body);
   const url = `${req.protocol}://${req.get("host")}/me`;
-  //console.log(url);
+  console.log(url);
   await new Email(newUser, url).sendWelcome();
-  createToken(newUser, 201, req, res);
+  createToken(newUser, 201, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
+  console.log(req.body);
   const { email, password } = req.body;
+  console.log(email, password);
   //1) Check if email and password exists
   if (!email || !password) {
     return next(new AppError("Please provide email and password!", 400));
@@ -54,7 +56,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("Incorrect email or password", 401));
 
   //3)If everything is ok, send token to client
-  createToken(user, 200, req, res);
+  createToken(user, 200, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -77,7 +79,7 @@ exports.protect = catchAsync(async (req, res, next) => {
 
   //2) Validate the token (Verification)
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  // console.log(decoded);
+  console.log(decoded);
 
   //3) If user still exists
   const currentUser = await User.findById(decoded.id);
@@ -164,11 +166,11 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   await user.save();
   //3) Update changedPasswordAt property for the user
   //4) Log the user in, send JWT
-  createToken(user, 200, req, res);
+  createToken(user, 200, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
-  //console.log(req.user);
+  console.log(req.user);
   // 1) get user from collection
   const user = await User.findOne({ _id: req.user.id }).select("+password");
   // 2) Check if posted current password is correct
@@ -179,7 +181,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
   //4) log user in, send jwt
-  createToken(user, 200, req, res);
+  createToken(user, 200, res);
 });
 
 //Only for rendered pages, no errors!

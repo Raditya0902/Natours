@@ -8,6 +8,7 @@ const xss = require("xss-clean");
 const hpp = require("hpp");
 const cookieParser = require("cookie-parser");
 const compression = require("compression");
+const cors = require("cors");
 
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
@@ -24,6 +25,12 @@ app.enable("trust proxy");
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
+
+//Implementing cors
+app.use(cors());
+//access-contro-origin-header to everything
+
+app.options("*", cors());
 
 // 1) GLOBAL MIDDLEWARES
 // Serving static files
@@ -122,7 +129,7 @@ app.use(
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  // console.log(req.cookies);
+  console.log(req.cookies);
   next();
 });
 
