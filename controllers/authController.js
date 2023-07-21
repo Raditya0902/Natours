@@ -36,7 +36,7 @@ exports.signup = catchAsync(async (req, res, next) => {
   const url = `${req.protocol}://${req.get("host")}/me`;
   console.log(url);
   await new Email(newUser, url).sendWelcome();
-  createToken(newUser, 201, res);
+  createToken(newUser, 201, req, res);
 });
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -55,7 +55,7 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("Incorrect email or password", 401));
 
   //3)If everything is ok, send token to client
-  createToken(user, 200, res);
+  createToken(user, 200, req, res);
 });
 
 exports.protect = catchAsync(async (req, res, next) => {
@@ -165,7 +165,7 @@ exports.resetPassword = catchAsync(async (req, res, next) => {
   await user.save();
   //3) Update changedPasswordAt property for the user
   //4) Log the user in, send JWT
-  createToken(user, 200, res);
+  createToken(user, 200, req, res);
 });
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -180,7 +180,7 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   user.passwordConfirm = req.body.passwordConfirm;
   await user.save();
   //4) log user in, send jwt
-  createToken(user, 200, res);
+  createToken(user, 200, req, res);
 });
 
 //Only for rendered pages, no errors!
