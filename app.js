@@ -18,6 +18,7 @@ const reviewRouter = require("./routes/reviewRoutes");
 const bookingRouter = require("./routes/bookingRoutes");
 const viewRouter = require("./routes/viewRoutes");
 const bookingController = require("./controllers/bookingController");
+
 //Start express app,
 const app = express();
 
@@ -37,6 +38,7 @@ app.options("*", cors());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Set security HTTP headers
+
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -86,8 +88,6 @@ app.use(
   })
 );
 
-app.use(compression());
-
 // Development logging
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
@@ -132,10 +132,12 @@ app.use(
   })
 );
 
+app.use(compression());
+
 // Test middleware
 app.use((req, res, next) => {
   req.requestTime = new Date().toISOString();
-  console.log(req.cookies);
+  // console.log(req.cookies);
   next();
 });
 
