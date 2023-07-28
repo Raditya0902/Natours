@@ -52,6 +52,7 @@ app.use(
           "blob:",
           "https://*.mapbox.com",
           "https://js.stripe.com",
+          "https://js.stripe.com/v3/",
           "https://m.stripe.network",
           "https://*.cloudflare.com",
         ],
