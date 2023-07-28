@@ -3,7 +3,7 @@ const dotenv = require("dotenv");
 
 process.on("uncaughtException", (err) => {
   console.log("Uncaught exception:💥 Shutting down.");
-  console.log(err);
+  // console.log(err);
   console.log(err.name, err.message);
   process.exit(1);
 });
@@ -27,9 +27,6 @@ mongoose
   })
   .then(() => {
     console.log("DB connection successful.");
-  })
-  .catch((err) => {
-    console.log("DB connection not successful.", err);
   });
 
 // console.log(process.env);

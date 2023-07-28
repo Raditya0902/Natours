@@ -4,9 +4,11 @@ const catchAsync = require("./../utils/catchAsync");
 const factory = require("./handlerFactory");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const Booking = require("../models/bookingModal");
+const AppError = require("../utils/appError");
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.tourId);
+  if (!tour) return next(new AppError("Tour not found!", 404));
   const session = await stripe.checkout.sessions.create({
     mode: "payment",
     payment_method_types: ["card"],
