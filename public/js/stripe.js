@@ -7,6 +7,9 @@ const bookTour = async (tourId) => {
     // 1 get checkout session from API
     const session = await axios({
       method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
       url: `/api/v1/bookings/checkout-session/${tourId}`,
     });
     // const session = await fetch(`/api/v1/bookings/checkout-session/${tourId}`);
