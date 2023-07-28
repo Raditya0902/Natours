@@ -24,7 +24,7 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
         quantity: 1,
         price_data: {
           currency: "inr",
-          unit_amount: tour.price * 8200,
+          unit_amount: tour.price * 100,
           product_data: {
             name: `${tour.name} Tour`,
             description: tour.summary,
@@ -71,8 +71,10 @@ exports.webhookCheckout = (req, res, next) => {
   } catch (err) {
     return res.status(400).send(`Webhook error: ${err.message}`);
   }
+
   if (event.type === "checkout.session.completed")
     createBookingCheckout(event.data.object);
+
   res.status(200).json({ received: true });
 };
 
