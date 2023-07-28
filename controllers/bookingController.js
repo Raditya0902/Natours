@@ -5,7 +5,6 @@ const factory = require("./handlerFactory");
 const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 const Booking = require("../models/bookingModal");
 const AppError = require("../utils/appError");
-const { buffer } = require("micro");
 
 exports.getCheckoutSession = catchAsync(async (req, res, next) => {
   const tour = await Tour.findById(req.params.tourId);
@@ -69,7 +68,7 @@ const createBookingCheckout = async (session) => {
   await Booking.create({ tour, user, price });
 };
 
-exports.webhookCheckout = (req, res, next) => {
+exports.webhookCheckout = async (req, res, next) => {
   const signature = req.headers["stripe-signature"];
   let event;
   try {
@@ -84,7 +83,7 @@ exports.webhookCheckout = (req, res, next) => {
 
   if (event.type === "checkout.session.completed") {
     console.log(event.data.object);
-    createBookingCheckout(event.data.object);
+    await createBookingCheckout(event.data.object);
     console.log("Event was successful");
   }
 

@@ -55,6 +55,7 @@ app.use(
           "https://m.stripe.network",
           "https://*.cloudflare.com",
         ],
+        mediaSrc: ["*"],
         frameSrc: ["'self'", "https://js.stripe.com"],
         objectSrc: ["'none'"],
         styleSrc: ["'self'", "https:", "'unsafe-inline'"],
